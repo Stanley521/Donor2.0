@@ -1,0 +1,35 @@
+.card-header {
+    font-size: 1.5em;
+}
+.profile_form label#file_input {
+    width: 100%;
+}
+.profile_form .profile_pic {
+    width: 100%;
+    max-width: 15em;
+    max-height: 15em;
+}
+.profile_form .upload_icon {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%; opacity: 0.3;
+}
+.profile_form #file_input {
+    display: none;
+}
+.profile_form .username {
+    font-size: 2em;
+}
+.profile_form .bloodtype {
+    font-size: 2em;
+    color: #761b18;
+}
+.profile_mid {
+    background: #f2f2f2;
+    text-align: right;
+    font-size: 1.2em;
+}
+
+.donate_pic {
+    width: 100%;
+}
