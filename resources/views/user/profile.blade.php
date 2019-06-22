@@ -11,6 +11,11 @@
                             {{ session('status') }}
                         </div>
                     @endif
+                    @if(session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
                     <div class="card-header d-flex justify-content-between">
                         <div class="mt-auto mb-auto">User Profile</div>
                         <a href="{{route('user.editing')}}">
@@ -35,6 +40,7 @@
                             </div>
                             <div class="col-md-2">
                             </div>
+                            @if( $user->user_type != 'pmi')
                             <div class="col-md-3 m-auto">
                                 <div>
                                     Blood type
@@ -43,14 +49,17 @@
                                     {{ $user->blood_type_rhesus}}
                                 </div>
                             </div>
+                            @endif
                         </div>
                     </div>
+                    @if( $user->user_type != 'pmi')
                     <div class="card-body profile_mid">
                         <div class="d-flex justify-content-end">
                             <div class="col-md-4"> Last Donor: {{ $user->last_donor }}</div>
                             <div class="col-md-4"> Donor Eligibility: {{ $user->donor_eligibility }}</div>
                         </div>
                     </div>
+                    @endif
                     <div class="card-body row">
                         <div class="col-md-6">
                             {{--@foreach( )--}}
@@ -66,12 +75,14 @@
                                     {{ $user->description }}
                                 </div>
                             </div>
+                            @if( $user->user_type != 'pmi')
                             <div>
                                 PMI notes :
                                 <div>
                                     {{ $user->notes }}
                                 </div>
                             </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -106,7 +117,7 @@
 
         </div>
     </div>
-    @if( $user->notified == 'false')
+    @if( $user->notified == 'false' && $user->user_type != 'pmi')
         <script type='application/javascript'>
             $(document).ready(function(){
                 //your stuff

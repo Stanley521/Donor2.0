@@ -14,10 +14,19 @@ class Location extends Model
         'latitude',
         'longitude',
         'locatable_id',
-        'locatable_type'
+        'locatable_type',
+        'google_place_id'
     ];
 
     public function locatable(){
         return $this->morphTo();
+    }
+
+    public function placeclose(){
+        return $this->hasOne();
+    }
+
+    public function placeopen(){
+        return $this->hasOne();
     }
 }

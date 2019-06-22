@@ -17,9 +17,6 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
 
-            $table->unsignedBigInteger('location_id')->nullable();
-//            $table->foreign('location_id')->references('id')->on('locations');
-
             $table->unsignedBigInteger('file_id')->nullable();
 //            $table->foreign('file_id')->references('id')->on('files');
 

@@ -6,3 +6,10 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+@for $i from 0 through 100 {
+    .percentage-#{$i} > div:last-child:after {
+        $value: ($i * 1%);
+        width: $value;
+    }
+}

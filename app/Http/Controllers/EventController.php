@@ -13,9 +13,9 @@ use Illuminate\Support\Facades\Auth;
 use App\User;
 use App\File;
 use App\Conversation;
-use App\Stock;
+use App\Event;
 
-class DonorController extends Controller
+class EventController extends Controller
 {
 
     //
@@ -31,46 +31,14 @@ class DonorController extends Controller
      */
     public function index()
     {
-        $users = User::where('user_type', 'like', 'user')->orderBy('created_at', 'DESC')
-        ->paginate(15);
-        return view('donor.index', compact('users'));
-    }
+        $events = Event::orderBy('updated_at', 'DESC')->paginate(10);
 
-    public function stock()
-    {
-        $stocks = Stock::orderBy('amount', 'DESC')->paginate(15);
-        
-        if ($stocks[0]->amount != 0) {
-            $full = $stocks[0]->amount;
-            foreach( $stocks as $stock) {
-                if ($stock->amount != 0) {
-                    $stock->percent = round( 100 * $stock->amount / $full);
-                } else { 
-                    $stock->percent = '0';
-                }
-            }
-        } else {
-            foreach( $stocks as $stock) {
-                $stock->percent = '0';
-            }
-        }
+//        echo '<pre>';
+//        print_r($events[0]);
+//        echo '</pre>';
+//        die();
 
-        return view('donor.stock', compact('stocks'));
-    }
-
-    public function addstock( Request $request) {
-        $this->validate($request, [
-            'id' => 'required',
-            'amount' => 'required',
-        ]);
-
-        $stock = Stock::find($request->id);
-        $stock->amount =  $stock->amount + $request->amount;
-        $stock->updated_by =  Auth::user()->id;
-        $stock->save();
-
-        return redirect( route('donor.stock'))
-                    ->withSuccess(sprintf('Donor has been added.'));
+        return view('event.index', compact('events'));
     }
 
     public function find( Request $request)
@@ -97,7 +65,7 @@ class DonorController extends Controller
             $user = UserController::userInterface( $user);
         }
 
-        return view('donor.find', compact('users', 'search'));
+        return view('event.find', compact('users', 'search'));
     }
 
     public function personal( $id)
@@ -105,10 +73,10 @@ class DonorController extends Controller
         $user = User::find($id);
 
         $user = UserController::userInterface( $user);
-        return view('donor.personal', compact('user'));
+        return view('event.personal', compact('user'));
     }
 
-    public function donor( Request $request)
+    public function event( Request $request)
     {
         $this->validate($request, [
             'id' => 'required'
@@ -131,24 +99,8 @@ class DonorController extends Controller
         $user->last_donor = date('Y-m-d H:i:s',time());
         $user->save();
 
-        return redirect( route('donor.index'))
+        return redirect( route('event.index'))
                     ->withSuccess(sprintf('File %s has been uploaded.', $user->name));
-    }
-
-    public static function last4monthtimestamp( $timestamp) {
-        $today_start_ts = strtotime(date('Y-m-d', time()). ' 00:00:00');
-        $today = $today_start_ts; $numberofpeople = 10;
-
-        // echo date('Y-m-d H:i:s', $startdate) . "<br>";
-        $todate = date('Y-m-d H:i:s', $today);
-
-        $yesterday = $today - 60*60*24; // 1hari yang lalu
-        $yesterdate = date('Y-m-d H:i:s', $yesterday);
-
-        $last4months = $today - 60*60*24*30*4; // 4bulan yang lalu
-        $last4monthsdate = date('Y-m-d H:i:s', $last4months);
-
-        return $last4months;
     }
 
 }

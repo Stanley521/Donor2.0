@@ -25,6 +25,8 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
-        "laravel-echo": "^1.5.3"
+        "gulp": "^4.0.2",
+        "laravel-echo": "^1.5.3",
+        "laravel-elixir": "^6.0.0-18"
     }
 }

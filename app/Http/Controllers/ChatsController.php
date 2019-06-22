@@ -36,13 +36,14 @@ class ChatsController extends Controller
         })->orWhere(function($query) use ( $user, $friend) {
             $query->where(function($query) use ($user, $friend) {
                 $query->whereIn('user_one_id', [$friend->id, $user->id])
-                ->orWhereIn('user_two_id', [$friend->id, $user->id]);
+                ->WhereIn('user_two_id', [$friend->id, $user->id]);
             })
             ->where('status', 'connected');
         })->first();
 
         // echo '<pre>';
         // print_r($conversation);
+        // print_r(Auth::user()->id);
         // echo '</pre>';
         // die();
 
@@ -50,6 +51,7 @@ class ChatsController extends Controller
             if( $conversation->status == 'pending') {
                 $conversation->status="connected";
                 $conversation->save();
+                
             }
         }
         

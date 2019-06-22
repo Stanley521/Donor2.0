@@ -1,0 +1,17 @@
+.event-body {
+    min-height: 400px;
+}
+.st-input-row {
+    display: flex;
+}
+.st-input-row > div:first-child {
+    margin: auto;
+    width: 10em;
+}
+.st-input-row > div:nth-child(2) {
+    margin: auto;
+    width: 1em;
+}
+.st-input-row > div:last-child {
+    width: 100%;
+}

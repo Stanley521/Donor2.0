@@ -49,7 +49,6 @@ const app = new Vue({
                     conversation: e.conversation
                 });
             })
-        console.log(this.messages);
     },
 
     methods: {

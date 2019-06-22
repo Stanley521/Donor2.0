@@ -1897,10 +1897,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['messages', 'friendId'],
+  props: ['user', 'messages', 'friendId'],
+  methods: {
+    debug: function debug(event) {
+      console.log(user);
+    },
+    log: function log(message) {
+      console.log(message);
+    }
+  },
   created: function created() {
     this.$emit('initialized', {
+      user: this.user,
       friend_id: this.friendId
     });
   }
@@ -47454,28 +47464,40 @@ var render = function() {
   return _c(
     "ul",
     { staticClass: "chat" },
-    _vm._l(_vm.messages, function(message) {
-      return _c("li", { staticClass: "left clearfix" }, [
-        _c("div", { staticClass: "chat-body clearfix" }, [
-          _c("div", { staticClass: "header" }, [
-            _c("strong", { staticClass: "primary-font" }, [
-              _vm._v(
-                "\n                    " +
-                  _vm._s(message.user.name) +
-                  "\n                "
-              )
+    [
+      _vm._l(_vm.messages, function(message) {
+        return _c(
+          "li",
+          {
+            staticClass: "left clearfix",
+            class: { userChat: message.user.id == _vm.user.id }
+          },
+          [
+            _c("div", { staticClass: "chat-body clearfix" }, [
+              _c("div", { staticClass: "header" }, [
+                _c("strong", { staticClass: "primary-font" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(message.user.name) +
+                      "\n                "
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("p", [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(message.message) +
+                    "\n            "
+                )
+              ])
             ])
-          ]),
-          _vm._v(" "),
-          _c("p", [
-            _vm._v(
-              "\n                " + _vm._s(message.message) + "\n            "
-            )
-          ])
-        ])
-      ])
-    }),
-    0
+          ]
+        )
+      }),
+      _vm._v("\n    " + _vm._s(_vm.log(_vm.user)) + "\n")
+    ],
+    2
   )
 }
 var staticRenderFns = []
@@ -59722,7 +59744,6 @@ var app = new Vue({
         conversation: e.conversation
       });
     });
-    console.log(this.messages);
   },
   methods: {
     fetchMessages: function fetchMessages() {

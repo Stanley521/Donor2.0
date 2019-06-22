@@ -11,6 +11,11 @@
                             {{ session('status') }}
                         </div>
                     @endif
+                    @if(session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
                     <form action="{{ route('user.edit') }}" method="post" enctype="multipart/form-data">
                         {{ csrf_field() }}
                         {{ method_field('post') }}
@@ -38,6 +43,7 @@
                                 </div>
                                 <div class="col-md-2">
                                 </div>
+                                @if( $user->user_type != 'pmi')
                                 <div class="col-md-3 m-auto">
                                     <div>
                                         Blood type
@@ -60,14 +66,17 @@
                                         </select>
                                     </div>
                                 </div>
+                                @endif
                             </div>
                         </div>
+                        @if( $user->user_type != 'pmi')
                         <div class="card-body profile_mid">
                             <div class="d-flex justify-content-end">
                                 <div class="col-md-4"> Last Donor: {{ $user->last_donor }}</div>
                                 <div class="col-md-4"> Donor Eligibility: {{ $user->donor_eligibility }}</div>
                             </div>
                         </div>
+                        @endif
                         <div class="card-body row">
                             <div class="col-md-6">
                                 {{--@foreach( )--}}
@@ -88,12 +97,14 @@
                                     </textarea>
                                 </div>
 
+                                @if( $user->user_type != 'pmi')
                                 <div>
                                     PMI notes :
                                     <div>
                                         {{ $user->notes }}
                                     </div>
                                 </div>
+                                @endif
                             </div>
                         </div>
                     </form>
@@ -102,20 +113,22 @@
         </div>
     </div>
     <script type='application/javascript'>
-        var fileToRead = document.getElementById("file_input");
-
-        fileToRead.addEventListener("change", function(event) {
-            var files = fileToRead.files;
-            if (files.length) {
-                if (this.files && this.files[0]) {
-                    var reader = new FileReader();
-                    reader.onload = function (e) {
-                        $('#profile_img').attr('src', e.target.result);
+        window.addEventListener('load',function(){
+            var fileToRead = document.getElementById("file_input");
+            
+            var hi = fileToRead.addEventListener('change', function(event) {
+                var files = fileToRead.files;
+                if (files.length) {
+                    if (this.files && this.files[0]) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            $('#profile_img').attr('src', e.target.result);
+                        }
+                        reader.readAsDataURL(this.files[0]);
                     }
-                    reader.readAsDataURL(this.files[0]);
                 }
-            }
 
-        }, false);
+            }, false);
+        }); 
     </script>
 @endsection

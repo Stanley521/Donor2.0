@@ -11,6 +11,11 @@
                             {{ session('status') }}
                         </div>
                     @endif
+                    @if(session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
                     <div class="card-header d-flex justify-content-between">
                         <div class="mt-auto mb-auto">Donors list</div>
                     </div>
@@ -36,7 +41,7 @@
                                         @if ( $user->blood_type == null)
                                             -
                                         @elseif ( $user->blood_type != null && $user->rhesus != null)
-                                            {{ $user->blood_type + $user->rhesus }}
+                                            {{ $user->blood_type_rhesus}}
                                         @else
                                             {{ $user->blood_type}}
                                         @endif

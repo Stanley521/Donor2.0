@@ -11,7 +11,11 @@
                     <div class="panel-heading">Chats</div>
 
                     <div class="panel-body">
-                        <chat-messages :messages="messages" :friend-id="{{$friend->id}}" v-on:initialized="setFriend"></chat-messages>
+                        <chat-messages  :user="{{ Auth::user() }}"
+                                        :messages="messages" 
+                                        :friend-id="{{$friend->id}}" 
+                                        v-on:initialized="setFriend">
+                        </chat-messages>
                     </div>
                     <div class="panel-footer">
                         <chat-form

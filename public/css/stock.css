@@ -1,0 +1,24 @@
+
+.stock-container {
+    padding: 2em;
+}
+.stock-title {
+    font-size: 2em;
+}
+.stock-title > div:last-child{
+    font-size: 0.5em
+}
+.w-20 {
+    width: 20%;
+}
+.w-80 {
+    width:80%;
+}
+
+dt {
+    padding: 0.5em 0;
+}
+
+.btn {
+    padding: 0 0.75em;
+}

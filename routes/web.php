@@ -36,15 +36,30 @@ Route::get('file/upload', 'FileController@form')->name('file.form');
 Route::get('file/index', 'FileController@index')->name('file.index');
 Route::post('file/upload', 'FileController@upload')->name('file.upload');
 
+// Donors
+Route::get('donor/stock', 'DonorController@stock')->name('donor.stock');
+Route::post('donor/stock/add', 'DonorController@addstock')->name('donor.stock.add');
+
+// Donoring
 Route::get('donor/index', 'DonorController@index')->name('donor.index');
 Route::get('donor/find', 'DonorController@find')->name('donor.find');
 Route::get('donor/{id}', 'DonorController@personal')->name('donor.personal');
 Route::post('donor', 'DonorController@donor')->name('donor.donor');
 
 
+// Events
+ Route::get('event/index', 'EventController@index')->name('event.index');
+ Route::get('event/find', 'EventController@find')->name('event.find');
+ Route::get('event/{id}', 'EventController@personal')->name('event.personal');
+Route::get('event/create', 'EventController@create')->name('event.create');
+
+
 Route::post('conversation/request', 'ConversationController@request')->name('conversation.request');
+Route::get('/conversation/disconnect', 'ConversationController@disconnect')->name('chat.disconnect');
 
 Route::get('/chats', 'ConversationController@index')->name('chat.index');
 Route::get('/chat/{friend_id}', 'ChatsController@index')->name('chat.chat');
 Route::get('/messages/{friend_id}', 'ChatsController@fetchMessages')->name('chat.fetch');
+
+
 Route::post('/messages', 'ChatsController@sendMessage')->name('chat.send');

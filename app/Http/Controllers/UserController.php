@@ -120,7 +120,10 @@ class UserController extends Controller
     }
 
     public static function userInterface( $user) {
-        $file = File::find($user->file_id);
+        if ( $user->file_id) {
+            $file = File::find($user->file_id);
+        }
+        
 
         if ($file == null) {
             $user->filename = 'public/files/default.jpg';

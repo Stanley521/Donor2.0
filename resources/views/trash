@@ -1,0 +1,52 @@
+<script type="application/javascript">
+      var currentlatitude;
+      var currentlongitude;
+      
+      function getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+          x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+      }
+      function showPosition(position) {
+        currentlatitude = position.coords.latitude;
+        currentlongitude = position.coords.longitude;
+      }
+
+      function initMap() {
+        var js_data = '<?php echo json_encode($locations); ?>';
+        console.log(js_data);
+        var js_obj_data = JSON.parse(js_data);
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 12,
+          center: new google.maps.LatLng( currentlatitude, currentlongitude),
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+
+        var infowindow = new google.maps.InfoWindow();
+
+        var marker, i;
+
+        for (i = 0; i < js_obj_data.length; i++) {  
+          marker = new google.maps.Marker({
+            position: new google.maps.LatLng(js_obj_data[i].geometry.location.lat, js_obj_data[i].geometry.location.lat),
+            map: map
+          });
+
+          google.maps.event.addListener(marker, 'click', (function(marker, i) {
+            return function() {
+              infowindow.setContent('<a href="/detail/' + js_obj_data[i].id + '">' + js_obj_data[i].name + ', ' + js_obj_data[i].formatted_address + '</a>');
+              infowindow.open(map, marker);
+            }
+          })(marker, i));
+        }   
+      }
+      getLocation();
+      setTimeout(() => {
+        this.initMap();
+      }, 50);
+    </script>
+    <script src="http://maps.google.com/maps/api/js?sensor=false&key=AIzaSyBl-94cl8p6yU-zxAP0HWKbAjF2Lr3AIQo&callback=initMap" 
+        type="application/javascript" async defer></script>

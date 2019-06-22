@@ -6,6 +6,7 @@
 
 .chat li {
     margin-bottom: 10px;
+    padding: 0 20px;
     padding-bottom: 5px;
     border-bottom: 1px dotted #B3A9A9;
 }
@@ -13,6 +14,15 @@
 .chat li .chat-body p {
     margin: 0;
     color: #777777;
+    padding: 5px 10px;
+    border-radius: 15px; 
+    background: lawngreen;
+    width: fit-content;
+}
+
+.chat li.userChat .chat-body p {
+    margin-left: auto;
+    background: blue;
 }
 
 .panel-body {
@@ -23,14 +33,19 @@
 ::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
     background-color: #F5F5F5;
+    border-radius: 20px;
 }
 
 ::-webkit-scrollbar {
-    width: 12px;
+    width: 5px;
     background-color: #F5F5F5;
 }
 
 ::-webkit-scrollbar-thumb {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
     background-color: #555;
+}
+
+.userChat {
+    text-align: right;
 }

@@ -19,83 +19,144 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
+<style>
+.stanley-100 > div {
+    width: 100%;
+}
+.pulse-logo {
+font-size: 60px;
+margin-left: 10%;
+}
+.pulse-logo > div:first-child {
+padding: 0 10px;
+}
+.pulse-logo > .logo {
+font-size: 0.8em;
+border: 1px solid;
+margin: auto 0;
+}
+.pulse-logo > .logo > div{
+margin: auto 10px;
+}
+</style>
 </head>
 <body>
+
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="collapse navbar-collapse justify-content-between stanley-100" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
 
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
+                    <div>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <div class="navbar-brand">
+                            <a href="{{ url('/') }}">Home</a>
+                        </div>
                         @guest
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
+                            <div>
+                                <a href="{{ url('/') }}" class="nav-link">About Us</a>
+                            </div>
+                            <div>
+                                <a href="{{ url('/') }}" class="nav-link">Help</a>
+                            </div>
                         @else
-
                             @if( Auth::user()->user_type == 'user')
-                                <li class="nav-item">
+                                <div class="nav-item">
                                     <a href="{{ route('chat.index') }}" class="nav-link">Chat</a>
-                                </li>
-                                <li class="nav-item">
+                                </div>
+                                <div>
+                                    <a href="{{ url('/') }}" class="nav-link">About Us</a>
+                                </div>
+                                <div>
+                                    <a href="{{ url('/') }}" class="nav-link">Help</a>
+                                </div>
+                                <!-- <div class="nav-item">
                                     <a href="{{ route('donor.find') }}" class="nav-link">Find Donors</a>
-                                </li>
+                                </div> -->
                             @endif
                             @if( Auth::user()->user_type == 'pmi')
-                                <li class="nav-item">
+                                <div class="nav-item">
                                     <a href="{{ route('donor.index') }}" class="nav-link">Donating</a>
-                                </li>
-                            @endif
-
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('user.profile') }}">
-                                        {{ __('Profile') }}
-                                    </a>
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
                                 </div>
-                            </li>
+                                <div class="nav-item">
+                                    <a href="{{ route('donor.stock') }}" class="nav-link">Donor Stock</a>
+                                </div>
+                                <div class="nav-item">
+                                    <a href="{{ route('event.index') }}" class="nav-link">Events</a>
+                                </div>
+                            @endif
                         @endguest
-                    </ul>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <!-- Authentication Links -->
+                        @guest
+                            <div class="nav-item">
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            </div>
+                            @if (Route::has('register'))
+                                <div class="nav-item">
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                </div>
+                            @endif
+                        @else
+                            <div class="nav-item dropdown">
+                                    <div id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        {{ Auth::user()->name }} <span class="caret"></span>
+                                    </div>
+
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{{ route('user.profile') }}">
+                                            {{ __('Profile') }}
+                                        </a>
+                                        <a class="dropdown-item" href="{{ route('logout') }}"
+                                        onclick="event.preventDefault();
+                                                        document.getElementById('logout-form').submit();">
+                                            {{ __('Logout') }}
+                                        </a>
+
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            @csrf
+                                        </form>
+                                    </div>
+                                </div>
+                        @endguest
+                    </div>
                 </div>
             </div>
         </nav>
-
+        
+        <div class="d-flex justify-content-start pulse-logo">
+                <div>PULSE</div>
+                <div class="logo">
+                    <div>Logo</div>
+                </div>
+            </div>
         <main class="py-4">
             @yield('content')
         </main>
     </div>
+    <script>
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(setPosition);
+        } else { 
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+
+    function setPosition(position) {
+        document.cookie="latitude=" + position.coords.latitude;
+        document.cookie="longitude=" + position.coords.longitude;
+    }
+    getLocation();
+    </script>
     <script src="https://js.pusher.com/3.2/pusher.min.js"></script>
+    
 </body>
 </html>

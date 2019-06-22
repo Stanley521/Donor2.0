@@ -15,11 +15,17 @@
                             <div>
                                 @if( $conv->status == 'pending')
                                     (Pending)
-                                @elseif( $conv->status == 'connected')
+                                @elseif( $conv->status == 'connected') 
                                 @endif
                                 {{$conv->friend->name}}
                             </div>
-                            <div>
+                            <div class="d-flex justify-content-right">
+                                <form action="{{ route('chat.disconnect')}}" method="post" enctype="multipart/form-data">
+                                    {{ csrf_field() }}
+                                    {{ method_field('post') }}
+                                    <input type="hidden" name="id" value="{{$conv->id}}">
+                                    <button class="btn btn-danger mr-3" type="submit">Delete</button>
+                                </form>
                                 <a href="{{ route('chat.chat',  ['friend_id' => $conv->friend->id])}}">
                                     @if ( $conv->status == 'connected')
                                         <button type="submit" class="btn btn-success">Chat</button>

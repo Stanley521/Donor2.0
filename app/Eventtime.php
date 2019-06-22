@@ -8,12 +8,9 @@ class Event extends Model
 {
     //
     protected $fillable = [
-        'name',
-        'organizer',
-        'address',
-        'description',
-        'created_by',
-        'updated_by'
+        'event_id',
+        'open_datetime',
+        'close_datetime'
     ];
 
     /**

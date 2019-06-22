@@ -40,7 +40,7 @@ class ConversationController
                 $friend_id = $conv->user_one_id;
             } elseif ( $conv->user_one_id == Auth::user()->id) {
                 $friend_id = $conv->user_two_id;
-            } 
+            }
             $friend = User::find($friend_id);
             $conv->friend = $friend;
         }
@@ -65,13 +65,23 @@ class ConversationController
         $location->urgent = 'This is dummy address';
         $location->accessible_until = 'This is dummy address';
         $user = User::find($request->to_user_id);
-        $this->sendEmailUrgent($user, $location);
+        $this->sendEmailRequest($user, $location);
 
         return redirect( route('donor.find'))
             ->withSuccess(sprintf('Conversation has been requested.'));
     }
 
-    public function sendEmailUrgent( $user, $location)
+    public function disconnect( Request $request) {
+        $conv = Conversation::find($request->id);
+
+        $conv->status='disconnect';
+        $conv->save();
+
+        return redirect( route('chat.index'))
+            ->withSuccess(sprintf('Conversation has been disconnected.'));
+    }
+
+    public function sendEmailRequest( $user, $location)
     {
         $emails = array();
         $emailAddons = array(
