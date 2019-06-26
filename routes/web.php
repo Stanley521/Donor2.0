@@ -48,10 +48,12 @@ Route::post('donor', 'DonorController@donor')->name('donor.donor');
 
 
 // Events
- Route::get('event/index', 'EventController@index')->name('event.index');
- Route::get('event/find', 'EventController@find')->name('event.find');
- Route::get('event/{id}', 'EventController@personal')->name('event.personal');
-Route::get('event/create', 'EventController@create')->name('event.create');
+Route::get('event/index', 'EventController@index')->name('event.index');
+Route::get('event/find', 'EventController@find')->name('event.find');
+Route::get('event/detail/{id}', 'EventController@detail')->name('event.detail');
+Route::get('event/detail', 'EventController@detail')->name('event.detail');
+Route::post('event/create', 'EventController@create')->name('event.create');
+Route::post('event/edit', 'EventController@edit')->name('event.edit');
 
 
 Route::post('conversation/request', 'ConversationController@request')->name('conversation.request');
@@ -61,5 +63,7 @@ Route::get('/chats', 'ConversationController@index')->name('chat.index');
 Route::get('/chat/{friend_id}', 'ChatsController@index')->name('chat.chat');
 Route::get('/messages/{friend_id}', 'ChatsController@fetchMessages')->name('chat.fetch');
 
-
 Route::post('/messages', 'ChatsController@sendMessage')->name('chat.send');
+
+Route::get('/about', 'GuestController@about')->name('guest.about');
+Route::get('/help', 'GuestController@help')->name('guest.help');

@@ -2,12 +2,13 @@
 
 @section('content')
 <link rel="stylesheet" type="text/css" href="{{ asset('css/map.css') }}" >
+<link rel="stylesheet" type="text/css" href="{{ asset('css/graph.css') }}" >
+<link href="{{ asset('css/stock.css') }}" rel="stylesheet">
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Dashboard</div>
-
+                <div class="card-header">PMI Location</div>
                 <div class="card-body">
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
@@ -20,7 +21,31 @@
                         </div>
                     @endif
 
-                    <div id="map"></div>
+                    
+                    <div class="d-flex">
+                      <div class="w-50">
+                          <div class="text-left stock-title">
+                              <div>Our Current <br> Stock Donor</div>
+                              <div></div>
+                          </div>
+                          <dl>
+                              @foreach($stocks as $stock)
+                                  <dd class="d-flex percentage percentage-{{ $stock->percent}}">
+                                      <div class="text-center w-20 bg-white">
+                                      {{ $stock->name}} : {{ $stock->percent}}%
+                                      </div>
+                                      <div class="w-80 bar">
+
+                                      </div>
+                                  </dd>
+                              @endforeach
+                          </dl>
+                      </div>
+                      <div class="w-50 text-center">
+                        <div style="font-size:1.2em">PMI Location</div>
+                        <div id="map"></div>
+                      </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -30,7 +55,6 @@
 var currentlatitude;
 var currentlongitude;
 
-console.log( <?php echo json_encode($locations); ?>);
 function getLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition);
@@ -41,6 +65,7 @@ function getLocation() {
 function showPosition(position) {
   currentlatitude = position.coords.latitude;
   currentlongitude = position.coords.longitude;
+  console.log(currentlatitude + ', ' +currentlongitude);
 }
 
 function initMap() {

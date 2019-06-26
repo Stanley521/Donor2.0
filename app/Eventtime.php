@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Event extends Model
+class Eventtime extends Model
 {
     //
     protected $fillable = [
@@ -13,12 +13,7 @@ class Event extends Model
         'close_datetime'
     ];
 
-    /**
-     * A location is can be used by many user
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
-     */
-    public function location(){
-        return $this->morphMany('App\Location', 'locatable');
+    public function event() {
+        return $this->belongsTo(Event::class);
     }
 }

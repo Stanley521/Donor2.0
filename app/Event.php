@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+
 class Event extends Model
 {
     //
@@ -23,5 +24,9 @@ class Event extends Model
      */
     public function location(){
         return $this->morphMany('App\Location', 'locatable');
+    }
+
+    public function eventtimes() {
+        return $this->hasMany(Eventtime::class);
     }
 }

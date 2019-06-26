@@ -125,7 +125,7 @@ class UserController extends Controller
         }
         
 
-        if ($file == null) {
+        if (!$user->file_id || !$file) {
             $user->filename = 'public/files/default.jpg';
         } else {
             $user->filename = $file->filename;

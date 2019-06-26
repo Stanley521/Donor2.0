@@ -38,6 +38,9 @@ margin: auto 0;
 .pulse-logo > .logo > div{
 margin: auto 10px;
 }
+.nav-item {
+    white-space: nowrap;
+}
 </style>
 </head>
 <body>
@@ -59,26 +62,32 @@ margin: auto 10px;
                             <a href="{{ url('/') }}">Home</a>
                         </div>
                         @guest
-                            <div>
-                                <a href="{{ url('/') }}" class="nav-link">About Us</a>
+                            <div class="nav-item">
+                                <a href="{{ route('guest.about') }}" class="nav-link">About Us</a>
                             </div>
-                            <div>
-                                <a href="{{ url('/') }}" class="nav-link">Help</a>
+                            <div class="nav-item">
+                                <a href="{{ route('guest.help') }}" class="nav-link">Help</a>
                             </div>
                         @else
                             @if( Auth::user()->user_type == 'user')
                                 <div class="nav-item">
                                     <a href="{{ route('chat.index') }}" class="nav-link">Chat</a>
                                 </div>
-                                <div>
-                                    <a href="{{ url('/') }}" class="nav-link">About Us</a>
-                                </div>
-                                <div>
-                                    <a href="{{ url('/') }}" class="nav-link">Help</a>
-                                </div>
-                                <!-- <div class="nav-item">
+                                <div class="nav-item">
                                     <a href="{{ route('donor.find') }}" class="nav-link">Find Donors</a>
-                                </div> -->
+                                </div>
+                                <div class="nav-item">
+                                    <a href="{{ route('event.index') }}" class="nav-link">Events</a>
+                                </div>
+                                <div class="nav-item">
+                                    <a href="{{ route('donor.stock') }}" class="nav-link">Donor Stock</a>
+                                </div>
+                                <div class="nav-item">
+                                    <a href="{{ route('guest.about') }}" class="nav-link">About Us</a>
+                                </div>
+                                <div class="nav-item">
+                                    <a href="{{ route('guest.help') }}" class="nav-link">Help</a>
+                                </div class="nav-item">
                             @endif
                             @if( Auth::user()->user_type == 'pmi')
                                 <div class="nav-item">

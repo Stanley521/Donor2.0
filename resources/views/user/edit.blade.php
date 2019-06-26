@@ -78,11 +78,7 @@
                         </div>
                         @endif
                         <div class="card-body row">
-                            <div class="col-md-6">
-                                {{--@foreach( )--}}
-                                hi
-                            </div>
-                            <div class="col-md-6">
+                            <div class="col-md-12">
 
                                 <div> Email : {{ $user->email }}</div>
 

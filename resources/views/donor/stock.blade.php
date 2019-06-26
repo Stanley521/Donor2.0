@@ -23,13 +23,10 @@
                     <div class="d-flex stock-container">
                         <div class="w-50">
                             <div class="text-left stock-title">
-                                <div>Add and Edit </div>
-                                <div>Your Blood Data</div>
-                                <div>Here!</div>
-                                <div>So we can share it to all our friends</div>
+                                <div>Our Current <br> Stock Donor</div>
+                                <div></div>
                             </div>
                             <dl>
-                                <dt>Stock yang tersedia sekarang</dt>
                                 @foreach($stocks as $stock)
                                     <dd class="d-flex percentage percentage-{{ $stock->percent}}">
                                         <div class="text-center w-20 bg-white">
@@ -48,7 +45,9 @@
                                 <tr>
                                     <th>Blood type</th>
                                     <th>Quantity</th>
+                                    @if( Auth::user()->user_type == 'pmi')
                                     <th></th>
+                                    @endif
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -56,12 +55,14 @@
                                     <tr>
                                         <td>{{ $stock->name }}</td>
                                         <td>{{ $stock->amount }}</td>
-                                        <td>
-                                            <button type="button" class="btn btn-info" value="{{$stock->id}}"
-                                            id="addbutton" data-toggle="modal" data-target="#addStock"
-                                            onclick="changedata( {{ $stock}})"
-                                            >Add</button>
-                                        </td>
+                                        @if( Auth::user()->user_type == 'pmi')
+                                            <td>
+                                                <button type="button" class="btn btn-info" value="{{$stock->id}}"
+                                                id="addbutton" data-toggle="modal" data-target="#addStock"
+                                                onclick="changedata( {{ $stock}})"
+                                                >Add</button>
+                                            </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                                 </tbody>

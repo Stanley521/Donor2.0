@@ -3,6 +3,7 @@
 }
 .st-input-row {
     display: flex;
+    margin-bottom: 0.5em;
 }
 .st-input-row > div:first-child {
     margin: auto;

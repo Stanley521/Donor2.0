@@ -6,8 +6,7 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 use App\Location;
-use App\Placeopen;
-use App\Placeclose;
+use App\Stock;
 use Auth;
 
 class HomeController extends Controller
@@ -76,6 +75,22 @@ class HomeController extends Controller
         // $location = collect($body->result);
 
         $locations = Location::where('type', 'like', 'PMI')->get();
+        $stocks = Stock::orderBy('amount', 'DESC')->paginate(15);
+        
+        if ($stocks[0]->amount != 0) {
+            $full = $stocks[0]->amount;
+            foreach( $stocks as $stock) {
+                if ($stock->amount != 0) {
+                    $stock->percent = round( 100 * $stock->amount / $full);
+                } else { 
+                    $stock->percent = '0';
+                }
+            }
+        } else {
+            foreach( $stocks as $stock) {
+                $stock->percent = '0';
+            }
+        }
         // echo '<pre>';
         // foreach( $locations as $location) {
             // print_r($location);
@@ -83,6 +98,6 @@ class HomeController extends Controller
         // echo '</pre>';
         // die();
 
-        return view('home', ['locations'=>$locations]);
+        return view('home', compact('locations', 'stocks'));
     }
 }

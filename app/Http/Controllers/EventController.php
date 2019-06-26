@@ -14,6 +14,7 @@ use App\User;
 use App\File;
 use App\Conversation;
 use App\Event;
+use App\Eventtime;
 
 class EventController extends Controller
 {
@@ -68,12 +69,12 @@ class EventController extends Controller
         return view('event.find', compact('users', 'search'));
     }
 
-    public function personal( $id)
+    public function detail($id)
     {
-        $user = User::find($id);
-
-        $user = UserController::userInterface( $user);
-        return view('event.personal', compact('user'));
+        $event = Event::find($id);
+        $eventimes = Event::find($id)->eventtimes()->get();
+        $event->eventtimes = $eventimes;
+        echo json_encode($event, JSON_PRETTY_PRINT);
     }
 
     public function event( Request $request)
@@ -101,6 +102,99 @@ class EventController extends Controller
 
         return redirect( route('event.index'))
                     ->withSuccess(sprintf('File %s has been uploaded.', $user->name));
+    }
+
+    public function create( Request $request) {
+
+        $this->validate($request, [
+            'name' => 'required',
+            'organizer' => 'required',
+            'address' => 'required',
+            'description' => 'required'
+        ]);
+
+        $event = Event::create([
+            'name' => $request->name,
+            'organizer' => $request->organizer,
+            'address' => $request->address,
+            'description' => $request->description,
+            'created_by' => Auth::user()->id,
+            'updated_by' => Auth::user()->id,
+        ]);
+
+        $dt = json_decode($request->datetime, true);
+
+        if (!empty($dt)) {
+            foreach( $dt as $datetime) {
+                // date format yyyy-mm-dd
+                $date = $datetime['date'];
+                $day = substr($date, 8, 2);
+                $month = substr($date, 5, 2);
+                $year = substr($date, 0, 4);
+
+                $open = $datetime['open_time'];
+                $open_hour = substr($open, 0, 2);
+                $open_minute = substr($open, 3, 4);
+
+                $close = $datetime['close_time'];
+                $close_hour = substr($close, 0, 2);
+                $close_minute = substr($close, 3, 4);
+
+                // mktime(hour, minute, second, month, day, year)
+                $open_datetime = mktime( $open_hour, $open_minute, 0, $month, $day, $year);
+                $close_datetime = mktime( $close_hour, $close_minute, 0, $month, $day, $year);
+                $open_datetime = date('Y-m-d H:i', $open_datetime);
+                $close_datetime = date('Y-m-d H:i', $close_datetime);
+                $eventtime = Eventtime::create([
+                    'event_id' => $event->id,
+                    'open_datetime' => $open_datetime,
+                    'close_datetime' => $close_datetime,
+                ]);
+            }
+        }
+
+        return redirect( route('event.index'))
+        ->withSuccess(sprintf('Event %s has been created.', $event->name));
+    }
+
+
+    public function edit( Request $request) {
+        // dd($request->request);
+        // die();
+        $this->validate($request, [
+            'id' => 'required',
+            'name' => 'required',
+            'datetime' => 'required',
+            'organizer' => 'required',
+            'address' => 'required',
+            'description' => 'required'
+        ]);
+
+        $event = Event::find($request->id);
+        $event->name = $request->name;
+        $event->organizer = $request->organizer;
+        $event->address = $request->address;
+        $event->description = $request->description;
+        $event->updated_by = Auth::user()->id;
+        $event->save();
+        
+        // Clear eventtimes
+        $deleted = Eventtime::where('event_id', 'like', $event->id)->delete();
+
+        $dt = json_decode($request->datetime, true);
+
+        if (!empty($dt)) {
+            foreach( $dt as $datetime) {
+                $eventtime = Eventtime::create([
+                    'event_id' => $event->id,
+                    'open_datetime' => $datetime['open_datetime'],
+                    'close_datetime' => $datetime['close_datetime'],
+                ]);
+            }
+        }
+
+        return redirect( route('event.index'))
+        ->withSuccess(sprintf('Event %s has been edited.', $event->name));
     }
 
 }
