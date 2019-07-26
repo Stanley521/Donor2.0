@@ -17,10 +17,15 @@
                         </div>
                     @endif
                     <div class="card-header d-flex justify-content-between">
-                        <div class="mt-auto mb-auto">Donors list</div>
+                        Donors list
                     </div>
 
                     <div class="card-body profile_form">
+                        <form action="{{route('donor.index')}}">
+                            <p>
+                                <input type="text" class="form-control" name="search" value="{{$search}}" placeholder="Find name here">
+                            </p>
+                        </form>
                         <table class="table table-bordered">
                             <thead>
                             <tr>

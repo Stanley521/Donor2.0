@@ -64,11 +64,7 @@
                             </div>
                         </div>
                         <div class="card-body row">
-                            <div class="col-md-6">
-                                {{--@foreach( )--}}
-                                hi
-                            </div>
-                            <div class="col-md-6">
+                            <div class="col-md-12">
 
                                 <div> Email : {{ $user->email }}</div>
 
@@ -90,7 +86,7 @@
                                     </textarea>
                                 </div>
                             </div>
-                            <button type="submit">Donor</button>
+                            <button class="btn btn-success" type="submit">Donor</button>
                         </div>
                     </form>
                 </div>

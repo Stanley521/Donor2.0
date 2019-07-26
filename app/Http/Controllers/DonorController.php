@@ -29,11 +29,15 @@ class DonorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index( Request $request)
     {
-        $users = User::where('user_type', 'like', 'user')->orderBy('created_at', 'DESC')
+        $search = '';
+        if ($request->search) {
+            $search = $request->search;
+        }
+        $users = User::where('user_type', 'like', 'user')->where('name', 'like', "%{$search}%")->orderBy('created_at', 'DESC')
         ->paginate(15);
-        return view('donor.index', compact('users'));
+        return view('donor.index', compact('users', 'search'));
     }
 
     public function stock()
@@ -85,7 +89,10 @@ class DonorController extends Controller
             ->where('id', '!=', Auth::user()->id)
             ->where('findable', 'like', true)
             ->where('name', 'like', "%{$search}%")
-            ->whereRaw('last_donor < DATE_SUB(CURDATE(), INTERVAL 120 day)')
+            ->where(function($query) {
+                $query->whereRaw('last_donor < DATE_SUB(CURDATE(), INTERVAL 120 day)')
+                ->orWhereNull('last_donor');
+            })
             ->orderBy('updated_at', 'DESC')
             ->paginate(15);
         foreach ( $users as $user) {
@@ -132,7 +139,7 @@ class DonorController extends Controller
         $user->save();
 
         return redirect( route('donor.index'))
-                    ->withSuccess(sprintf('File %s has been uploaded.', $user->name));
+                    ->withSuccess(sprintf('%s data has been updated.', $user->name));
     }
 
     public static function last4monthtimestamp( $timestamp) {

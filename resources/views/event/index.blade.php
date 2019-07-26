@@ -18,8 +18,8 @@
                             {{ session('success') }}
                         </div>
                     @endif
-                    <div class="card-header d-flex justify-content-between">
-                        <div class="mt-auto mb-auto">Donor events</div>
+                    <div class="card-header d-flex justify-content-center">
+                        Donor events
                     </div>
                     <div class="d-flex stock-container">
                         <div class="w-25">

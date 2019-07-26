@@ -24,22 +24,31 @@
     width: 100%;
 }
 .pulse-logo {
-font-size: 60px;
-margin-left: 10%;
+    font-size: 60px;
+    margin-left: 10%;
 }
-.pulse-logo > div:first-child {
-padding: 0 10px;
-}
-.pulse-logo > .logo {
-font-size: 0.8em;
-border: 1px solid;
-margin: auto 0;
-}
-.pulse-logo > .logo > div{
-margin: auto 10px;
+.pulse-logo img{
+    width: 5em
 }
 .nav-item {
     white-space: nowrap;
+}
+a {
+    color: rgb(247, 63, 82);
+    text-decoration: none;
+}
+a:hover {
+    color: rgb(147, 6, 20);
+    text-decoration: none;
+}
+.card-header {
+    font-size: 2em;
+    background: none;
+    border-bottom: none;
+    text-align: center;
+}
+.modal-dialog {
+    margin-top: 15%;
 }
 </style>
 </head>
@@ -141,11 +150,8 @@ margin: auto 10px;
         </nav>
         
         <div class="d-flex justify-content-start pulse-logo">
-                <div>PULSE</div>
-                <div class="logo">
-                    <div>Logo</div>
-                </div>
-            </div>
+            <img src="{{ asset('images/logo.png') }}" alt="">
+        </div>
         <main class="py-4">
             @yield('content')
         </main>

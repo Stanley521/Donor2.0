@@ -65,7 +65,7 @@ class UserController extends Controller
         $user->save();
 
         return redirect( route('user.profile'))
-            ->withSuccess(sprintf('File %s has been uploaded.', $user->name));
+            ->withSuccess(sprintf('Your profile has been edited.', $user->name));
 
     }
 

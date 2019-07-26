@@ -8,7 +8,6 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">PMI Location</div>
                 <div class="card-body">
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
@@ -42,7 +41,7 @@
                           </dl>
                       </div>
                       <div class="w-50 text-center">
-                        <div style="font-size:1.2em">PMI Location</div>
+                        <div style="font-size:2em">PMI Location</div>
                         <div id="map"></div>
                       </div>
                     </div>
