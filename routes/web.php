@@ -67,3 +67,7 @@ Route::post('/messages', 'ChatsController@sendMessage')->name('chat.send');
 
 Route::get('/about', 'GuestController@about')->name('guest.about');
 Route::get('/help', 'GuestController@help')->name('guest.help');
+
+Route::get('/help', 'GuestController@help')->name('guest.help');
+Route::get('/help/chat/{pmi_id}', 'GuestController@chat')->name('help.chat.chat');
+Route::post('/conversation/disconnect', 'ConversationController@disconnect')->name('help.chat.disconnect');

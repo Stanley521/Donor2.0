@@ -12,12 +12,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Conversation;
 use App\User;
+use App\Message;
 use Mail;
 
 class ConversationController
 {
 
     public function index( Request $request) {
+        $search = '';
+        if ($request->search) {
+            $search = $request->search;
+        }
         $user = Auth::user();
         $convs = Conversation::where(function($query) {
             $query->where('user_two_id', Auth::user()->id)
@@ -28,25 +33,38 @@ class ConversationController
                 ->orWhereIn('user_two_id', [$user->id]);
             })
             ->where('status', 'connected');
-        })->get();
-
-        // echo '<pre>';
-        // print_r($convs);
-        // echo '</pre>';
-        // die();
+        })->paginate(5);
         
-        foreach( $convs as $conv) {
+        foreach( $convs as $key=>$conv) {
             if ( $conv->user_two_id == Auth::user()->id) {
                 $friend_id = $conv->user_one_id;
+                $user_one = User::find($friend_id);
+
+                if ($search!='' && strpos($user_one->name, $search) === false) {
+                    unset($convs[$key]);
+                } else {
+                    $message = Message::where('conversation_id', $conv->id)->where('status', 'd')->count();
+                    $conv->message_count = $message;
+                    $friend = User::find($friend_id);
+                    $conv->friend = $friend;
+                }
             } elseif ( $conv->user_one_id == Auth::user()->id) {
                 $friend_id = $conv->user_two_id;
-            }
-            $friend = User::find($friend_id);
-            $conv->friend = $friend;
-        }
-        
+                
+                $user_two = User::find($friend_id);
 
-        return view('chat.index', compact('convs'));
+                if ($search!='' && strpos($user_two->name, $search) === false) {
+                    unset($convs[$key]);
+                } else {
+                    $message = Message::where('conversation_id', $conv->id)->where('status', 'd')->count();
+                    $conv->message_count = $message;
+                    $friend = User::find($friend_id);
+                    $conv->friend = $friend;
+                }
+            }
+        }
+
+        return view('chat.index', compact('convs', 'search'));
     }
 
     public function request( Request $request) {
@@ -72,12 +90,17 @@ class ConversationController
     }
 
     public function disconnect( Request $request) {
-        $conv = Conversation::find($request->id);
+        if ($request->id) {
+            $conv = Conversation::find($request->id);
+        } elseif ( $request->pmi_id) {
+            $conv = Conversation::where('user_two_id', 'like', $request->pmi_id)
+            ->where('status', 'like', 'connected')->first();
+        }
 
         $conv->status='disconnect';
         $conv->save();
 
-        return redirect( route('chat.index'))
+        return redirect( route('help.index'))
             ->withSuccess(sprintf('Conversation has been disconnected.'));
     }
 

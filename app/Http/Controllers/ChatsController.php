@@ -73,8 +73,11 @@ class ChatsController extends Controller
         }
         $conversation = Conversation::whereIn('user_one_id', [$friend->id, $user->id])->whereIn('user_two_id', [$friend->id, $user->id])
         ->where('status', 'connected')->first();
-        
-        return Message::where('conversation_id', $conversation->id)->with('user')->get();
+
+        Message::where('conversation_id', $conversation->id)->where('status', 'd')->with('user')->update(array('status' => 'r'));
+        $messages = Message::where('conversation_id', $conversation->id)->with('user')->get();
+
+        return $messages;
     }
 
     /**

@@ -7,51 +7,52 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
+                <div class="h3 text-center">
+                    Contact Us    
+                </div>
                 <div class="panel panel-default">
-                    <div class="panel-heading">Chats List</div>
-                    @if ( empty($convs))
+                    <div class="panel-heading">PMI List</div>
+                    
+                    @if ( empty($pmis))
                         <div class="text-center">
-                            There is no available chat, please find donors first
+                            There is no available chat
                         </div>
                     @else
-                        <form action="{{route('chat.index')}}">
+                        <form action="{{route('guest.help')}}">
                             <p>
                                 <input type="text" class="form-control" name="search" value="{{$search}}" 
                                 placeholder="Find Chat here" autocomplete=off>
                             </p>
                         </form>
-                        @foreach ( $convs as $conv)
+                        @if ( $pmis->count() == 0)
+                            <div class="text-center">
+                                There is no available chat
+                            </div>
+                        @endif
+                        @foreach ( $pmis as $pmi)
                             <div class="card-body d-flex justify-content-between">
                                 <div>
-                                    @if( $conv->status == 'pending')
-                                        (Pending)
-                                    @elseif( $conv->status == 'connected') 
-                                    @endif
-                                    {{$conv->friend->name}}
-                                    @if ( $conv->message_count != 0)
+                                    {{$pmi->name}}
+                                    @if ( $pmi->message_count != 0)
                                     <span style="border-radius: 50%; background: red; padding: 0.5em 1em; color: white">
-                                        {{$conv->message_count}}
+                                        {{$pmi->message_count}}
                                     </span>
                                     @endif
                                 </div>
                                 <div class="d-flex justify-content-right">
-                                    <form action="{{ route('chat.disconnect')}}" method="post" enctype="multipart/form-data">
+                                    <form action="{{ route('help.chat.disconnect')}}" method="post" enctype="multipart/form-data">
                                         {{ csrf_field() }}
                                         {{ method_field('post') }}
-                                        <input type="hidden" name="id" value="{{$conv->id}}">
+                                        <input type="hidden" name="pmi_id" value="{{$pmi->id}}">
                                         <button class="btn btn-danger mr-3" type="submit">Delete</button>
                                     </form>
-                                    <a href="{{ route('chat.chat',  ['friend_id' => $conv->friend->id])}}">
-                                        @if ( $conv->status == 'connected')
-                                            <button type="submit" class="btn btn-success">Chat</button>
-                                        @elseif ($conv->status == 'pending')
-                                            <button type="submit" class="btn btn-warning">Accept</button>
-                                        @endif
+                                    <a href="{{ route('help.chat.chat',  ['pmi_id' => $pmi->id])}}">
+                                        <button type="submit" class="btn btn-success">Chat</button>
                                     </a>
                                 </div>
                             </div>
                         @endforeach
-                        {{ $convs->links() }}
+                        {{ $pmis->links() }}
                     @endif
                 </div>
             </div>

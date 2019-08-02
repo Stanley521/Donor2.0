@@ -100,6 +100,9 @@ a:hover {
                             @endif
                             @if( Auth::user()->user_type == 'pmi')
                                 <div class="nav-item">
+                                    <a href="{{ route('chat.index') }}" class="nav-link">Chat</a>
+                                </div>
+                                <div class="nav-item">
                                     <a href="{{ route('donor.index') }}" class="nav-link">Donating</a>
                                 </div>
                                 <div class="nav-item">
